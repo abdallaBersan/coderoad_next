@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const Menu = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const signOutHandler = () => {
     signOut({ callbackUrl: "/signin" });
@@ -15,9 +15,14 @@ const Menu = () => {
       <ul className="flex items-stretch">
         <li>
           {session && session.user ? (
-            <Link className="btn btn-ghost rounded-btn" href="/profile">
-              Profil ({session.user.username})
-            </Link>
+            <>
+              <Link className="btn btn-ghost rounded-btn" href="/new-roadmap">
+                Créer une roadmap
+              </Link>
+              <Link className="btn btn-ghost rounded-btn" href="/profile">
+                Profil ({session.user.username})
+              </Link>
+            </>
           ) : (
             <button
               className="btn btn-ghost rounded-btn"

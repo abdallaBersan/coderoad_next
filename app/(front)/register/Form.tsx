@@ -32,8 +32,6 @@ const Form = () => {
     },
   });
 
-  console.log("callbackUrl", callbackUrl);
-
   useEffect(() => {
     if (session && session.user) {
       router.push(callbackUrl);
@@ -128,7 +126,7 @@ const Form = () => {
               <div className="text-error">{errors.confirmPassword.message}</div>
             )}
           </div>
-          <div className="my-2">
+          <div className="my-2 mt-5">
             <button
               type="submit"
               disabled={isSubmitting}
@@ -137,16 +135,16 @@ const Form = () => {
               {isSubmitting && (
                 <span className="loading loading-spinner"></span>
               )}
-              Register
+              S'inscrire
             </button>
           </div>
         </form>
 
         <div className="divider"> </div>
         <div>
-          Already have an account?{" "}
+          Vous avez déjà un compte?{" "}
           <Link className="link" href={`/signin?callbackUrl=${callbackUrl}`}>
-            Login
+            Se connecter
           </Link>
         </div>
       </div>

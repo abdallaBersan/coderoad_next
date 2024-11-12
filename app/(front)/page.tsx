@@ -1,31 +1,16 @@
-"use client";
+// app/(front)/page.tsx
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import HomeClientComponent from "@/components/home/HomeClientComponent";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
-  const { data: session, status } = useSession();
+// Composant de page principal
+export default async function Front() {
+  // Récupération des utilisateurs et des roadmaps côté serveur
+  const users = await prisma.user.findMany({
+    include: {
+      Roadmap: true,
+    },
+  });
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      router.push("/signin");
-    }
-  }, [session]);
-
-  if (session && session.user) {
-    return (
-      <div>
-        <h1>Home</h1>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <p>Loading...</p>
-    </div>
-  );
+  return <HomeClientComponent users={users} />;
 }

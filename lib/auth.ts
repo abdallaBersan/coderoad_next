@@ -50,7 +50,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return {
             id: existingUser.id,
             username: existingUser.username,
-            // name: existingUser.username,
           };
         } catch (error) {
           if (error instanceof ZodError) {

@@ -20,4 +20,28 @@ model User {
   role      UserRole? @default(USER)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Roadmap   Roadmap[]
+}
+
+model Roadmap {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  status      String
+  github      String?
+  type        String
+  group       String
+  uuid        String
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Image       Image[]
+}
+
+model Image {
+  id        String  @id @default(uuid())
+  title     String
+  roadmap   Roadmap @relation(fields: [roadmapId], references: [id])
+  roadmapId String
 }
