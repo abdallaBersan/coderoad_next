@@ -7,7 +7,18 @@ export type User = {
 export type Roadmap = {
   id: string;
   title: string;
+  description: string;
   status: string;
+  github: string;
+  type: string;
+  group: string;
+};
+
+export type RoadmapInputs = {
+  title: string;
+  description: string;
+  status: string;
+  github: string;
   type: string;
   group: string;
 };

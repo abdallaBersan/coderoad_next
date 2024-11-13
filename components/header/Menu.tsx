@@ -16,7 +16,7 @@ const Menu = () => {
         <li>
           {session && session.user ? (
             <>
-              <Link className="btn btn-ghost rounded-btn" href="/new-roadmap">
+              <Link className="btn btn-ghost rounded-btn" href="/roadmaps/add">
                 Créer une roadmap
               </Link>
               <Link className="btn btn-ghost rounded-btn" href="/profile">

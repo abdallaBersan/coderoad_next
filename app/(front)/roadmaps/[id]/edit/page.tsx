@@ -1,11 +1,10 @@
-
 import { Metadata } from "next";
 import Form from "./Form";
 
 export const metadata: Metadata = {
-  title: "Créer une roadmap",
+  title: "Modifier une roadmap",
 };
 
-export default function NewRoadmap() {
+export default function EditRoadmap() {
   return <Form />;
 }

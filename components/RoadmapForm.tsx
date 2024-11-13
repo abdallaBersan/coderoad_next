@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { RoadmapInputs } from "@/types/types";
+
 import {
   FieldErrors,
   SubmitHandler,
@@ -8,25 +9,23 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 
-type Inputs = {
-  title: string;
-  description: string;
-  status: string;
-  github: string;
-  type: string;
-  group: string;
-};
+interface RoadmapFormProps {
+  initialData?: RoadmapInputs;
+  onSubmit: SubmitHandler<RoadmapInputs>;
+  submitLabel: string;
+}
 
-const Form = () => {
-  const router = useRouter();
-
+const RoadmapForm = ({
+  initialData,
+  onSubmit,
+  submitLabel,
+}: RoadmapFormProps) => {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors, isSubmitting },
-  } = useForm<Inputs>({
-    defaultValues: {
+  } = useForm<RoadmapInputs>({
+    defaultValues: initialData || {
       title: "",
       description: "",
       status: "todo",
@@ -36,41 +35,11 @@ const Form = () => {
     },
   });
 
-  const formSubmit: SubmitHandler<Inputs> = async (form) => {
-    const { title, description, status, github, type, group } = form;
-
-    try {
-      const res = await fetch("/api/roadmaps", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          status,
-          github,
-          type,
-          group,
-        }),
-      });
-
-      if (res.ok) {
-        router.push("/");
-      } else {
-        const error = await res.json();
-        console.error(error);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <div className="max-w-sm  mx-auto card bg-base-300 my-4">
+    <div className="max-w-sm mx-auto card bg-base-300 my-4">
       <div className="card-body">
-        <h1 className="card-title">Créer une roadmap</h1>
-        <form onSubmit={handleSubmit(formSubmit)}>
+        <h1 className="card-title">{submitLabel}</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TitleInput register={register} errors={errors} />
           <DescriptionInput register={register} errors={errors} />
           <StatusInput register={register} errors={errors} />
@@ -86,22 +55,22 @@ const Form = () => {
               {isSubmitting && (
                 <span className="loading loading-spinner"></span>
               )}
-              Créer
+              {submitLabel}
             </button>
           </div>
-          {/* </div> */}
         </form>
       </div>
     </div>
   );
 };
 
+// Réutilisez les composants TitleInput, DescriptionInput, etc. ici.
 const TitleInput = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="title">
@@ -125,8 +94,8 @@ const DescriptionInput = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="description">
@@ -149,8 +118,8 @@ const StatusInput = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="status">
@@ -177,8 +146,8 @@ const GithubInput = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="github">
@@ -201,8 +170,8 @@ const TypeInput = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="type">
@@ -228,8 +197,8 @@ const GroupInput = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="group">
@@ -251,4 +220,4 @@ const GroupInput = ({
   </div>
 );
 
-export default Form;
+export default RoadmapForm;

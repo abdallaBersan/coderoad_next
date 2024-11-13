@@ -1,4 +1,3 @@
-// app/(front)/HomeClientComponent.tsx
 "use client";
 
 import Home from "@/app/(front)/Home";
