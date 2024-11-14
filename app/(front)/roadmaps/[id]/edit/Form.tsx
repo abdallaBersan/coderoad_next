@@ -26,8 +26,6 @@ export default function Form() {
 
   const handleFormSubmit: SubmitHandler<RoadmapInputs> = async (form) => {
     try {
-      console.log("Edit Form handleFormSubmit form: ", form);
-      console.log("Edit Form handleFormSubmit id: ", id);
 
       const res = await fetch(`/api/roadmaps/${id}`, {
         method: "PUT",

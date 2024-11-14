@@ -9,7 +9,7 @@ export type Roadmap = {
   title: string;
   description: string;
   status: string;
-  github: string;
+  github: string | null;
   type: string;
   group: string;
 };
