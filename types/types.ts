@@ -2,7 +2,6 @@ export type User = {
   id: string;
   username: string;
   Roadmap: Roadmap[];
-  isAdmin: boolean;
 };
 
 export type Roadmap = {
