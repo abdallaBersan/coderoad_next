@@ -1,9 +1,10 @@
 import { Metadata } from "next";
+import Profile from "./Profile";
 
 export const metadata: Metadata = {
-    title: 'Profile',
-}
+  title: "Profile",
+};
 
-export default function Signin(){
-    return <div>Profile</div>
+export default async function ProfilePage() {
+  return <Profile />;
 }

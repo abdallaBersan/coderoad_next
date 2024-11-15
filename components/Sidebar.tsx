@@ -1,4 +1,5 @@
 import { Roadmap } from "@/types/types";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -11,6 +12,8 @@ export default function Sidebar({
   isSidebarVisible: boolean;
   closeSidebar: () => void;
 }) {
+  const { data: session } = useSession();
+
   const [isLoading, setIsLoading] = useState(false);
   const [githubLink, setGithubLink] = useState(roadmap.github || "");
   const [githubInputValue, setGithubInputValue] = useState("");
@@ -102,22 +105,25 @@ export default function Sidebar({
         )}
       </div>
 
-      <div className="p-3">
-        <input
-          type="text"
-          className="input input-bordered w-full max-w-sm mb-3"
-          value={githubInputValue}
-          onChange={(e) => setGithubInputValue(e.target.value)}
-          placeholder="Nouveau lien Github"
-        />
-        <button
-          className={`btn btn-primary w-full ${isLoading ? "loading" : ""}`}
-          onClick={handleSaveGithub}
-          disabled={isLoading || !githubInputValue}
-        >
-          {isLoading ? "Enregistrement..." : "Modifier"}
-        </button>
-      </div>
+      {/* only owner can edit the github link */}
+      {roadmap.authorId == session?.user.id && (
+        <div className="p-3">
+          <input
+            type="text"
+            className="input input-bordered w-full max-w-sm mb-3"
+            value={githubInputValue}
+            onChange={(e) => setGithubInputValue(e.target.value)}
+            placeholder="Nouveau lien Github"
+          />
+          <button
+            className={`btn btn-primary w-full ${isLoading ? "loading" : ""}`}
+            onClick={handleSaveGithub}
+            disabled={isLoading || !githubInputValue}
+          >
+            {isLoading ? "Enregistrement..." : "Modifier"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

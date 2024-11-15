@@ -1,4 +1,5 @@
 import { Roadmap } from "@/types/types";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function RoadmapCard({
@@ -10,6 +11,8 @@ export default function RoadmapCard({
   handleRoadmapClick: (roadmap: Roadmap) => void;
   handleStatusChange: (roadmap: Roadmap, newStatus: string) => void;
 }) {
+  const { data: session } = useSession();
+
   const [isStatusMenuOpen, setIsStatusMenuOpen] = useState(false);
 
   const toggleStatusMenu = (e: React.MouseEvent) => {
@@ -28,7 +31,7 @@ export default function RoadmapCard({
       onClick={() => handleRoadmapClick(item)}
     >
       <div
-        className={`flex justify-between items-center p-1 mb-2 text-white rounded-t-lg ${
+        className={`flex justify-between items-center p-1 text-lg text-white rounded-t-lg ${
           item.status === "in progress"
             ? "bg-amber-600"
             : item.status === "done"
@@ -43,34 +46,35 @@ export default function RoadmapCard({
             ? "In Progress"
             : "Done"}
         </span>
-        <span
-          className="text-lg cursor-pointer relative"
-          onClick={toggleStatusMenu}
-        >
-          •••
-          {isStatusMenuOpen && (
-            <div className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32">
-              <button
-                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
-                onClick={() => changeStatus("todo")}
-              >
-                To Do
-              </button>
-              <button
-                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
-                onClick={() => changeStatus("in progress")}
-              >
-                In Progress
-              </button>
-              <button
-                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
-                onClick={() => changeStatus("done")}
-              >
-                Done
-              </button>
-            </div>
-          )}
-        </span>
+        {item.authorId === session?.user.id ? (
+          <span className="cursor-pointer relative" onClick={toggleStatusMenu}>
+            •••
+            {isStatusMenuOpen && (
+              <div className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32">
+                <button
+                  className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
+                  onClick={() => changeStatus("todo")}
+                >
+                  To Do
+                </button>
+                <button
+                  className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
+                  onClick={() => changeStatus("in progress")}
+                >
+                  In Progress
+                </button>
+                <button
+                  className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
+                  onClick={() => changeStatus("done")}
+                >
+                  Done
+                </button>
+              </div>
+            )}
+          </span>
+        ) : (
+          <div className="text-slate-800	">•••</div>
+        )}
       </div>
       <div className="text-lg font-semibold mb-2 p-1">{item.title}</div>
       <div className="flex items-center bg-neutral-700 p-1 text-white text-xs font-semibold rounded-b-lg">

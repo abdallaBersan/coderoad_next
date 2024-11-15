@@ -50,6 +50,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return {
             id: existingUser.id,
             username: existingUser.username,
+            isAdmin: existingUser.role === "ADMIN",
           };
         } catch (error) {
           if (error instanceof ZodError) {
@@ -73,8 +74,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         ...session,
         user: {
           ...session.user,
-          // id: token.id as string,
+          id: token.id as string,
           username: token.username as string,
+          isAdmin: token.isAdmin as boolean,
         },
       };
     },
@@ -86,7 +88,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         return {
           ...token,
+          id: user.id,
           username: user.username,
+          isAdmin: user.isAdmin,
         };
       }
       return token;

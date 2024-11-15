@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { User } from "@/types/types";
-import RoadmapsComponent from "@/components/home/RoadmapsComponent";
+import RoadmapsView from "@/components/roadmap/RoadmapsView";
 
 export default function Home({ users }: { users: User[] }) {
   const { data: session, status } = useSession();
@@ -21,7 +21,7 @@ export default function Home({ users }: { users: User[] }) {
   }
 
   if (status === "authenticated") {
-    return <RoadmapsComponent users={users} />;
+    return <RoadmapsView users={users} />;
   }
 
   return null;

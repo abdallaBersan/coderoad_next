@@ -2,6 +2,7 @@ export type User = {
   id: string;
   username: string;
   Roadmap: Roadmap[];
+  isAdmin: boolean;
 };
 
 export type Roadmap = {
@@ -12,6 +13,7 @@ export type Roadmap = {
   github: string | null;
   type: string;
   group: string;
+  authorId: string;
 };
 
 export type RoadmapInputs = {

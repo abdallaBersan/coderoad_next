@@ -1,5 +1,3 @@
-// app/(front)/page.tsx
-
 import { prisma } from "@/lib/prisma";
 import Home from "./Home";
 

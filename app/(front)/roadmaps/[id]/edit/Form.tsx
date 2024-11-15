@@ -2,9 +2,10 @@
 
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import RoadmapForm from "@/components/RoadmapForm";
+import RoadmapForm from "@/components/roadmap/RoadmapForm";
 import { SubmitHandler } from "react-hook-form";
 import { RoadmapInputs } from "@/types/types";
+import Loading from "@/components/Loading";
 
 export default function Form() {
   const router = useRouter();
@@ -26,7 +27,6 @@ export default function Form() {
 
   const handleFormSubmit: SubmitHandler<RoadmapInputs> = async (form) => {
     try {
-
       const res = await fetch(`/api/roadmaps/${id}`, {
         method: "PUT",
         // headers: { "Content-Type": "application/json" },
@@ -43,7 +43,7 @@ export default function Form() {
     }
   };
 
-  if (!initialData) return <p>Loading...</p>;
+  if (!initialData) return <Loading />;
 
   return (
     <RoadmapForm

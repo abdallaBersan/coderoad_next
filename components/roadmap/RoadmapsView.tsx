@@ -1,11 +1,16 @@
 "use client";
 
-import RoadmapCard from "@/components/RoadmapCard";
+import RoadmapCard from "@/components/roadmap/RoadmapCard";
 import Sidebar from "@/components/Sidebar";
 import { User, Roadmap } from "@/types/types";
 import { useState } from "react";
 
-export default function RoadmapsComponent({ users }: { users: User[] }) {
+interface RoadmapsViewProps {
+  users: User[];
+  isCenter?: boolean;
+}
+
+export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
   // État pour gérer la visibilité de la sidebar et les données de la roadmap sélectionnée
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [selectedRoadmap, setSelectedRoadmap] = useState<Roadmap | null>(null);
@@ -47,7 +52,7 @@ export default function RoadmapsComponent({ users }: { users: User[] }) {
   }
 
   return (
-    <div className="flex flex-row w-full">
+    <div className={`${isCenter ? "" : "flex flex-row w-full"}`}>
       {users.map((user) => (
         <div key={user.username} className="flex flex-col m-5">
           <div className="text-center mb-5 text-2xl">
