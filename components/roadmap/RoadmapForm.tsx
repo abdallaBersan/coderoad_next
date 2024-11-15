@@ -15,6 +15,9 @@ interface RoadmapFormProps {
   submitLabel: string;
 }
 
+console.log("RoadmapForm date: ", new Date().toISOString());
+console.log("RoadmapForm date split: ", new Date().toISOString().split("T"));
+
 const RoadmapForm = ({
   initialData,
   onSubmit,
@@ -25,14 +28,22 @@ const RoadmapForm = ({
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RoadmapInputs>({
-    defaultValues: initialData || {
-      title: "",
-      description: "",
-      status: "todo",
-      github: "",
-      type: "frontend",
-      group: "challenge",
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          createdAt: initialData.createdAt
+            ? new Date(initialData.createdAt).toISOString().slice(0, 16) // Convertir au format yyyy-mm-ddTHH:MM
+            : "",
+        }
+      : {
+          title: "",
+          description: "",
+          status: "todo",
+          github: "",
+          type: "frontend",
+          group: "challenge",
+          createdAt: new Date().toISOString().slice(0, 16),
+        },
   });
 
   return (
@@ -46,6 +57,7 @@ const RoadmapForm = ({
           <GithubInput register={register} errors={errors} />
           <TypeInput register={register} errors={errors} />
           <GroupInput register={register} errors={errors} />
+          <DateInput register={register} errors={errors} />
           <div className="my-2 mt-5">
             <button
               type="submit"
@@ -202,7 +214,7 @@ const GroupInput = ({
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="group">
-      Group
+      Groupe
     </label>
     <select
       id="group"
@@ -216,6 +228,31 @@ const GroupInput = ({
     </select>
     {errors.group?.message && (
       <div className="text-error">{errors.group.message}</div>
+    )}
+  </div>
+);
+
+const DateInput = ({
+  register,
+  errors,
+}: {
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
+}) => (
+  <div className="my-2">
+    <label className="label" htmlFor="createdAt">
+      Date de création
+    </label>
+    <input
+      type="datetime-local"
+      id="createdAt"
+      className="input input-bordered w-full max-w-sm"
+      {...register("createdAt", {
+        required: "Created at is required",
+      })}
+    />
+    {errors.createdAt?.message && (
+      <div className="text-error">{errors.createdAt.message}</div>
     )}
   </div>
 );

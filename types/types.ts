@@ -23,4 +23,5 @@ export type RoadmapInputs = {
   github: string;
   type: string;
   group: string;
+  createdAt: string;
 };
