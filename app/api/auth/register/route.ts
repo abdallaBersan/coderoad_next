@@ -10,13 +10,37 @@ export const POST = async (request: NextRequest) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Créer un nouvel utilisateur
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         username,
         password: hashedPassword,
         role: "USER",
       },
     });
+
+    // get all unique roadmaps by uuid
+    const roadmaps = await prisma.roadmap.findMany({
+      distinct: ["uuid"],
+    });
+
+    // copier ces roadmaps pour chaque nouvel utilisateur
+    await Promise.all(
+      roadmaps.map((roadmap) =>
+        prisma.roadmap.create({
+          data: {
+            title: roadmap.title,
+            description: roadmap.description,
+            status: roadmap.status,
+            github: roadmap.github,
+            type: roadmap.type,
+            group: roadmap.group,
+            uuid: roadmap.uuid,
+            authorId: user.id,
+            createdAt: roadmap.createdAt,
+          },
+        })
+      )
+    );
 
     return NextResponse.json(
       {
