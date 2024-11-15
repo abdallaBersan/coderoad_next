@@ -44,10 +44,9 @@ export const PUT = async (req: Request, context: any) => {
     const id = params.id;
 
     // Données de mise à jour reçues dans le corps de la requête
-    const data = await req.json(); 
+    const data = await req.json();
 
     const { id: _, authorId: __, ...updateData } = data;
-
 
     // get uuid from this roadmap
     const roadmap = await prisma.roadmap.findUnique({

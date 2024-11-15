@@ -7,7 +7,7 @@ import { User } from "@/types/types";
 import RoadmapsView from "@/components/roadmap/RoadmapsView";
 
 export default function Home({ users }: { users: User[] }) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {

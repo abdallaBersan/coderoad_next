@@ -103,14 +103,11 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
         ></div>
       )}
 
-      {/* Sidebar affichée conditionnellement */}
-      {isSidebarVisible && selectedRoadmap && (
-        <Sidebar
-          roadmap={selectedRoadmap}
-          isSidebarVisible={isSidebarVisible}
-          closeSidebar={closeSidebar}
-        />
-      )}
+      <Sidebar
+        roadmap={selectedRoadmap}
+        isSidebarVisible={isSidebarVisible}
+        closeSidebar={closeSidebar}
+      />
     </div>
   );
 }

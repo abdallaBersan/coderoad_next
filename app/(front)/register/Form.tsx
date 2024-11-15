@@ -16,7 +16,6 @@ const Form = () => {
   const { data: session } = useSession();
 
   const params = useSearchParams();
-  let callbackUrl = params.get("callbackUrl") || "/";
   const router = useRouter();
 
   const {
@@ -31,12 +30,6 @@ const Form = () => {
       confirmPassword: "",
     },
   });
-
-  useEffect(() => {
-    if (session && session.user) {
-      router.push(callbackUrl);
-    }
-  }, [callbackUrl, params, router, session]);
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
     const { username, password } = form;
@@ -143,7 +136,7 @@ const Form = () => {
         <div className="divider"> </div>
         <div>
           Vous avez déjà un compte?{" "}
-          <Link className="link" href={`/signin?callbackUrl=${callbackUrl}`}>
+          <Link className="link" href={`/signin`}>
             Se connecter
           </Link>
         </div>

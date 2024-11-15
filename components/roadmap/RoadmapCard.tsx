@@ -31,7 +31,7 @@ export default function RoadmapCard({
       onClick={() => handleRoadmapClick(item)}
     >
       <div
-        className={`flex justify-between items-center p-1 text-lg text-white rounded-t-lg ${
+        className={`flex justify-between items-center p-1 text-lg text-white rounded-t-lg select-none ${
           item.status === "in progress"
             ? "bg-amber-600"
             : item.status === "done"
@@ -73,11 +73,13 @@ export default function RoadmapCard({
             )}
           </span>
         ) : (
-          <div className="text-slate-800	">•••</div>
+          <span className="opacity-0">•••</span>
         )}
       </div>
-      <div className="text-lg font-semibold mb-2 p-1">{item.title}</div>
-      <div className="flex items-center bg-neutral-700 p-1 text-white text-xs font-semibold rounded-b-lg">
+      <div className="text-lg font-semibold mb-2 p-1 select-none">
+        {item.title}
+      </div>
+      <div className="flex items-center bg-neutral-700 p-1 text-white text-xs font-semibold rounded-b-lg select-none">
         {item.group === "challenge" ? "Challenge" : "Projet"}
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import RoadmapForm from "@/components/roadmap/RoadmapForm";
 import { SubmitHandler } from "react-hook-form";
 import { RoadmapInputs } from "@/types/types";
