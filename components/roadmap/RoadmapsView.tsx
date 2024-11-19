@@ -27,6 +27,10 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
     setSelectedRoadmap(null);
   };
 
+  const updateRoadmap = (roadmap: Roadmap) => {
+    setSelectedRoadmap({ ...roadmap });
+  };
+
   async function handleStatusChange(roadmap: Roadmap, newStatus: string) {
     // Logique pour mettre à jour le statut dans l'état global ou dans la base de données
     console.log(`Changing status of ${roadmap.title} to ${newStatus}`);
@@ -39,10 +43,8 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
       });
 
       if (response.ok) {
-        console.log("Statut mis à jour avec succès");
-
         roadmap.status = newStatus;
-        setSelectedRoadmap({ ...roadmap });
+        updateRoadmap(roadmap);
       } else {
         console.error("Erreur lors de la mise à jour du statut");
       }
@@ -107,6 +109,7 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
         roadmap={selectedRoadmap}
         isSidebarVisible={isSidebarVisible}
         closeSidebar={closeSidebar}
+        updateRoadmap={updateRoadmap}
       />
     </div>
   );

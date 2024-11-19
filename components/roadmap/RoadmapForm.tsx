@@ -58,7 +58,6 @@ const RoadmapForm = ({
           <TitleInput register={register} errors={errors} />
           <DescriptionInput register={register} errors={errors} />
           <StatusInput register={register} errors={errors} />
-          <GithubInput register={register} errors={errors} />
           <TypeInput register={register} errors={errors} />
           <GroupInput register={register} errors={errors} />
           <DateInput register={register} errors={errors} />
@@ -166,30 +165,6 @@ const StatusInput = ({
     </select>
     {errors.status?.message && (
       <div className="text-error">{errors.status.message}</div>
-    )}
-  </div>
-);
-
-const GithubInput = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<RoadmapInputs>;
-  errors: FieldErrors<RoadmapInputs>;
-}) => (
-  <div className="my-2">
-    <label className="label" htmlFor="github">
-      Github
-    </label>
-    {/* input not required */}
-    <input
-      type="text"
-      id="github"
-      className="input input-bordered w-full max-w-sm"
-      {...register("github")}
-    />
-    {errors.github?.message && (
-      <div className="text-error">{errors.github.message}</div>
     )}
   </div>
 );
