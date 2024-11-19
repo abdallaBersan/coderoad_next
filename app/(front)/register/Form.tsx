@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
+import { signInSchema } from "@/lib/zod";
 
 type Inputs = {
   username: string;
@@ -22,6 +23,7 @@ const Form = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
@@ -32,7 +34,9 @@ const Form = () => {
   });
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
-    const { username, password } = form;
+    // const { username, password } = form;
+
+    const { username, password } = signInSchema.parse(form);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -51,14 +55,24 @@ const Form = () => {
         });
       } else {
         const error = await res.json();
-        throw new Error(error.message);
+        console.log(error.message.code);
+
+        throw { message: error.message, code: error.message.code };
       }
     } catch (err: any) {
-      const error =
-        err.message && err.message.indexOf("E11000") === 0
-          ? "Email is duplicate"
-          : err.message;
-      //toast.error(error || "error");
+      if (err.errors) {
+        // Gérer les erreurs de validation zod en utilisant setError
+        err.errors.forEach((error: any) => {
+          setError(error.path[0], { message: error.message });
+        });
+      } else {
+        const errorMessage =
+          err.message.code === "P2002"
+            ? "Username is already used"
+            : err.message;
+        // Affichez un message d'erreur général ici si besoin
+        setError("username", { message: errorMessage });
+      }
     }
   };
 
