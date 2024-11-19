@@ -1,7 +1,7 @@
 import { Roadmap } from "@/types/types";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 
 export default function Sidebar({
   roadmap,
@@ -41,6 +41,10 @@ export default function Sidebar({
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    setGithubLink(roadmap?.github || "");
+  }, [roadmap]);
 
   return (
     <div
