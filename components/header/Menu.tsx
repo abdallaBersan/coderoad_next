@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { IoMdLogOut } from "react-icons/io";
+
 
 const Menu = () => {
   const { data: session } = useSession();
@@ -11,41 +13,38 @@ const Menu = () => {
   };
 
   return (
-    <div>
-      <ul className="flex items-stretch">
+    <>
+      <ul>
         <li>
           {session && session.user ? (
             <>
-              <Link className="btn btn-ghost rounded-btn" href="/roadmaps/add">
-                Créer une roadmap
+              <Link href="/roadmaps/add">
+                Create mission
               </Link>
-              <Link className="btn btn-ghost rounded-btn" href="/profile">
-                Profil ({session.user.username})
+              <Link href="/profile">
+                Profile ({session.user.username})
               </Link>
             </>
           ) : (
             <button
-              className="btn btn-ghost rounded-btn"
               type="button"
               onClick={() => signIn()}
             >
-              Se connecter
-            </button>
-          )}
-        </li>
-        <li>
-          {session && session.user && (
-            <button
-              className="btn btn-ghost rounded-btn"
-              type="button"
-              onClick={signOutHandler}
-            >
-              Se déconnecter
+              Sign in
             </button>
           )}
         </li>
       </ul>
-    </div>
+      {session && session.user && (
+        <button
+          type="button"
+          onClick={signOutHandler}
+        >
+          <IoMdLogOut />
+          Logout
+        </button>
+      )}
+    </>
   );
 };
 
