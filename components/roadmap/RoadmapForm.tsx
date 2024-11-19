@@ -13,6 +13,8 @@ interface RoadmapFormProps {
   initialData?: RoadmapInputs;
   onSubmit: SubmitHandler<RoadmapInputs>;
   submitLabel: string;
+  onDelete?: () => void;
+  isEditing?: boolean;
 }
 
 console.log("RoadmapForm date: ", new Date().toISOString());
@@ -22,6 +24,8 @@ const RoadmapForm = ({
   initialData,
   onSubmit,
   submitLabel,
+  onDelete,
+  isEditing,
 }: RoadmapFormProps) => {
   const {
     register,
@@ -70,6 +74,18 @@ const RoadmapForm = ({
               {submitLabel}
             </button>
           </div>
+
+          {isEditing && (
+            <div className="my-2">
+              <button
+                type="button"
+                onClick={onDelete}
+                className="btn btn-error w-full"
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

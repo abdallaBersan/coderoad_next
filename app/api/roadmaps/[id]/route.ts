@@ -4,9 +4,6 @@ import { NextResponse } from "next/server";
 export const GET = async (req: Request, context: any) => {
   try {
     const { params } = context;
-    //   if (!req.user) {
-    //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    //   }
 
     // Get the ID from the URL
     const id = params.id;
@@ -36,9 +33,6 @@ export const GET = async (req: Request, context: any) => {
 export const PUT = async (req: Request, context: any) => {
   try {
     const { params } = context;
-    //   if (!req.user) {
-    //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    //   }
 
     // Get the ID from the URL
     const id = params.id;
@@ -77,6 +71,44 @@ export const PUT = async (req: Request, context: any) => {
       message: "Roadmaps updated",
       count: updatedRoadmap.count,
       roadmaps: updatedRoadmaps,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: error || "Something went wrong" },
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (req: Request, context: any) => {
+  try {
+    const { params } = context;
+
+    const id = params.id;
+
+    // get uuid from this roadmap
+    const roadmap = await prisma.roadmap.findUnique({
+      where: { id },
+    });
+
+    if (!roadmap) {
+      return NextResponse.json(
+        { message: "Roadmap not found" },
+        { status: 404 }
+      );
+    }
+
+    const uuid = roadmap.uuid;
+
+    // Supprimer les roadmaps qui ont le même uuid
+    const deletedRoadmap = await prisma.roadmap.deleteMany({
+      where: { uuid },
+    });
+
+    return NextResponse.json({
+      message: "Roadmaps deleted",
+      count: deletedRoadmap.count,
     });
   } catch (error) {
     console.error(error);
