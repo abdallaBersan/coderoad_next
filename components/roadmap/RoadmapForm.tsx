@@ -75,7 +75,7 @@ const RoadmapForm = ({
           </div>
 
           {isEditing && (
-            <div className="my-2">
+            <div className="my-2 mt-7">
               <button
                 type="button"
                 onClick={onDelete}
@@ -240,6 +240,7 @@ const DateInput = ({
       className="input input-bordered w-full max-w-sm"
       {...register("createdAt", {
         required: "Created at is required",
+        setValueAs: (value) => (value ? new Date(value).toISOString() : null),
       })}
     />
     {errors.createdAt?.message && (
