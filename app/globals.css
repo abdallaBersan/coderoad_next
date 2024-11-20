@@ -57,9 +57,14 @@
   list-style: none;
 }
 
+html {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="%23575757" d="M4.5.79v22.42l6.56-6.57h9.29L4.5.79z"></path></svg>'), auto;
+}
+
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: var(--Surface__neutral__base);
 }
 
 header {
@@ -163,10 +168,42 @@ header {
   }
 }
 
-section.card-container {
+section.roadmap-container {
   display: flex;
   flex-direction: row;
   width: 100%;
+  padding-block: 3rem;
+  max-width: 100%;
+  overflow-x: auto;
+
+  > div {
+    border: 1px solid var(--Stroke__neutral__light);
+    border-radius: 10px;
+    padding: 2rem;
+    background-color: var(--Surface__neutral__high);
+    margin: 0.5rem;
+  }
+
+  div.card-container {
+    display: flex;
+    gap: 1rem;
+
+    div.frontend,
+    div.backend {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    div.backend {
+
+      .testblock {
+        height: 50px;
+        width: 100px;
+        background-color: rgb(103, 73, 73);
+      }
+    }
+  }
 }
 
 footer {

@@ -3,5 +3,5 @@ export default function FrontLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="flex-grow container mx-auto px-4">{children}</main>;
+  return <main className="flex-grow container px-4">{children}</main>;
 }
