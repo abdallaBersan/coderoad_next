@@ -52,7 +52,7 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
   }
 
   return (
-    <div className={`${isCenter ? "" : "flex flex-row w-full"}`}>
+    <section className={`${isCenter ? "" : "card-container"}`}>
       {users.map((user) => (
         <div key={user.username} className="flex flex-col m-5">
           <div className="text-center mb-5 text-2xl">
@@ -108,7 +108,7 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
         isSidebarVisible={isSidebarVisible}
         closeSidebar={closeSidebar}
       />
-    </div>
+    </section>
   );
 }
 
