@@ -27,13 +27,11 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${poppins.className} ${robotoMono.className}`}>
-      <body>
+      <body className="min-h-screen flex flex-col dark">
         <Providers>
-          <div className="min-h-screen flex flex-col">
-            <Header />
+          <Header />
             {children}
-            <Footer />
-          </div>
+          <Footer />
         </Providers>
       </body>
     </html>

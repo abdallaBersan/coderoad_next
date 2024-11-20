@@ -78,51 +78,81 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
   }
 
   return (
-    <div className={`${isCenter ? "" : "flex flex-row w-full"}`}>
+    <section className={`${isCenter ? "" : "roadmap-container"}`}>
       {users.map((user) => (
-        <div key={user.username} className="flex flex-col m-5">
+        <div key={user.username}>
           <div className="text-center mb-5 text-2xl">
-            <div className="username">{user.username}</div>
+            <p>{user.username}</p>
           </div>
-          <div className="flex flex-col items-center">
-            {/* Vérifie si `Roadmap` existe et n'est pas vide */}
-            {user.Roadmap && user.Roadmap.length > 0 ? (
-              <>
-                {user.Roadmap &&
-                  user.Roadmap.slice(0, -1).map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex flex-col items-center gap-4"
-                    >
-                      {/* Affiche la carte */}
-                      <RoadmapCard
-                        item={item}
-                        handleRoadmapClick={handleRoadmapClick}
-                        handleStatusChange={handleStatusChange}
-                        openMenuId={openMenuId}
-                        setOpenMenuId={setOpenMenuId}
-                        menuRef={menuRef}
-                      />
-                      {/* Affiche le Connector entre les cartes */}
-                      <Connector />
-                    </div>
-                  ))}
+          <div className="card-container">
+            <div className="frontend">
+              <h3>Front-end</h3>
+              {/* Vérifie si `Roadmap` existe et n'est pas vide */}
+              {user.Roadmap && user.Roadmap.length > 0 ? (
+                <>
+                  {user.Roadmap &&
+                    user.Roadmap.filter(item => item.type === 'frontend').slice(0, -1).map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex flex-col items-center gap-4"
+                      >
+                        {/* Affiche la carte */}
+                        <RoadmapCard
+                          item={item}
+                          handleRoadmapClick={handleRoadmapClick}
+                          handleStatusChange={handleStatusChange}
+                          openMenuId={openMenuId}
+                          setOpenMenuId={setOpenMenuId}
+                          menuRef={menuRef}
+                        />
+                        {/* Affiche le Connector entre les cartes */}
+                        <Connector />
+                      </div>
+                    ))}
 
-                {/* Affiche la dernière carte sans le Connector */}
-                <RoadmapCard
-                  item={user.Roadmap[user.Roadmap.length - 1]}
-                  handleRoadmapClick={handleRoadmapClick}
-                  handleStatusChange={handleStatusChange}
-                  openMenuId={openMenuId}
-                  setOpenMenuId={setOpenMenuId}
-                  menuRef={menuRef}
-                />
-              </>
-            ) : (
-              <div className="text-center text-lg text-gray-500">
-                Aucune roadmap pour le moment
-              </div>
-            )}
+                  {/* Affiche la dernière carte sans le Connector */}
+                  <RoadmapCard
+                    item={user.Roadmap.filter(item => item.type === 'frontend')[user.Roadmap.filter(item => item.type === 'frontend').length - 1]}
+                    handleRoadmapClick={handleRoadmapClick}
+                    handleStatusChange={handleStatusChange}
+                    openMenuId={openMenuId}
+                    setOpenMenuId={setOpenMenuId}
+                    menuRef={menuRef}
+                  />
+                </>
+              ) : (
+                <div className="text-center text-lg text-gray-500">
+                  Aucune roadmap pour le moment
+                </div>
+              )}
+            </div>
+            <div className="backend">
+              <h3>Back-end</h3>
+              {/* Vérifie si `Roadmap` existe et n'est pas vide */}
+              {user.Roadmap && user.Roadmap.length > 0 ? (
+                <>
+                  {user.Roadmap &&
+                    user.Roadmap.filter(item => item.type === 'backend').map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex flex-col items-center gap-4"
+                      >
+                        {/* Affiche la carte */}
+                        <RoadmapCard
+                          item={item}
+                          handleRoadmapClick={handleRoadmapClick}
+                          handleStatusChange={handleStatusChange}
+                          openMenuId={openMenuId}
+                          setOpenMenuId={setOpenMenuId}
+                          menuRef={menuRef}
+                        />
+                        {/* Affiche le Connector entre les cartes */}
+                        <Connector />
+                      </div>
+                    ))}
+                </>
+              ) : null}
+            </div>
           </div>
         </div>
       ))}
@@ -141,7 +171,7 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
         closeSidebar={closeSidebar}
         updateRoadmap={updateRoadmap}
       />
-    </div>
+    </section>
   );
 }
 
