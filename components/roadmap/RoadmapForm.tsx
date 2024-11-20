@@ -1,6 +1,7 @@
 "use client";
 
 import { RoadmapInputs } from "@/types/types";
+import { useState } from "react";
 
 import {
   FieldErrors,
@@ -27,6 +28,10 @@ const RoadmapForm = ({
   onDelete,
   isEditing,
 }: RoadmapFormProps) => {
+  const [selectedGroup, setSelectedGroup] = useState(
+    initialData?.group || "challenge"
+  );
+
   const {
     register,
     handleSubmit,
@@ -57,9 +62,20 @@ const RoadmapForm = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <TitleInput register={register} errors={errors} />
           <DescriptionInput register={register} errors={errors} />
-          <StatusInput register={register} errors={errors} />
-          <TypeInput register={register} errors={errors} />
-          <GroupInput register={register} errors={errors} />
+
+          {!isEditing && <StatusInput register={register} errors={errors} />}
+
+          <GroupInput
+            register={register}
+            errors={errors}
+            onGroupChange={(value) => setSelectedGroup(value)}
+          />
+          <TypeInput
+            register={register}
+            errors={errors}
+            selectedGroup={selectedGroup}
+            isEditing={isEditing}
+          />
           <DateInput register={register} errors={errors} />
           <div className="my-2 mt-5">
             <button
@@ -169,39 +185,14 @@ const StatusInput = ({
   </div>
 );
 
-const TypeInput = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<RoadmapInputs>;
-  errors: FieldErrors<RoadmapInputs>;
-}) => (
-  <div className="my-2">
-    <label className="label" htmlFor="type">
-      Type
-    </label>
-    <select
-      id="type"
-      className="select select-bordered w-full max-w-sm"
-      {...register("type", {
-        required: "Type is required",
-      })}
-    >
-      <option value="frontend">Frontend</option>
-      <option value="backend">Backend</option>
-    </select>
-    {errors.type?.message && (
-      <div className="text-error">{errors.type.message}</div>
-    )}
-  </div>
-);
-
 const GroupInput = ({
   register,
   errors,
+  onGroupChange,
 }: {
   register: UseFormRegister<RoadmapInputs>;
   errors: FieldErrors<RoadmapInputs>;
+  onGroupChange: (value: string) => void;
 }) => (
   <div className="my-2">
     <label className="label" htmlFor="group">
@@ -212,6 +203,8 @@ const GroupInput = ({
       className="select select-bordered w-full max-w-sm"
       {...register("group", {
         required: "Group is required",
+        onChange: (e: React.ChangeEvent<HTMLSelectElement>) =>
+          onGroupChange(e.target.value),
       })}
     >
       <option value="challenge">Challenge</option>
@@ -222,6 +215,52 @@ const GroupInput = ({
     )}
   </div>
 );
+
+const TypeInput = ({
+  register,
+  errors,
+  selectedGroup,
+  isEditing,
+}: {
+  register: UseFormRegister<RoadmapInputs>;
+  errors: FieldErrors<RoadmapInputs>;
+  selectedGroup: string;
+  isEditing: boolean | undefined;
+}) => {
+  const options =
+    selectedGroup === "projet"
+      ? ["Fullstack", "Frontend", "Backend"]
+      : ["Frontend", "Backend"];
+
+  const defaultValue =
+    !isEditing && selectedGroup === "projet" ? options[0] : undefined;
+
+  return (
+    <div className="my-2">
+      <label className="label" htmlFor="type">
+        Type
+      </label>
+      <select
+        id="type"
+        value={defaultValue}
+        className="select select-bordered w-full max-w-sm"
+        {...register("type", {
+          required: "Type is required",
+          value: !isEditing ? "Fullstack" : undefined,
+        })}
+      >
+        {options.map((option) => (
+          <option key={option.toLowerCase()} value={option.toLowerCase()}>
+            {option}
+          </option>
+        ))}
+      </select>
+      {errors.type?.message && (
+        <div className="text-error">{errors.type.message}</div>
+      )}
+    </div>
+  );
+};
 
 const DateInput = ({
   register,
