@@ -3,7 +3,7 @@
 import RoadmapCard from "@/components/roadmap/RoadmapCard";
 import Sidebar from "@/components/Sidebar";
 import { User, Roadmap } from "@/types/types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface RoadmapsViewProps {
   users: User[];
@@ -14,16 +14,40 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
   // État pour gérer la visibilité de la sidebar et les données de la roadmap sélectionnée
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [selectedRoadmap, setSelectedRoadmap] = useState<Roadmap | null>(null);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Fermer le menu dropdown lorsque vous cliquez en dehors
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        openMenuId
+      ) {
+        setTimeout(() => setOpenMenuId(null), 0); // Diffère la fermeture pour éviter le conflit
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [openMenuId]);
 
   // Fonction pour ouvrir la sidebar avec la roadmap sélectionnée
   const handleRoadmapClick = (roadmap: Roadmap) => {
     setSelectedRoadmap(roadmap);
+    setOpenMenuId(null);
     setSidebarVisible(true);
   };
 
   // Fonction pour fermer la sidebar
   const closeSidebar = () => {
     setSidebarVisible(false);
+    setOpenMenuId(null);
     setSelectedRoadmap(null);
   };
 
@@ -75,6 +99,9 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
                         item={item}
                         handleRoadmapClick={handleRoadmapClick}
                         handleStatusChange={handleStatusChange}
+                        openMenuId={openMenuId}
+                        setOpenMenuId={setOpenMenuId}
+                        menuRef={menuRef}
                       />
                       {/* Affiche le Connector entre les cartes */}
                       <Connector />
@@ -86,6 +113,9 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
                   item={user.Roadmap[user.Roadmap.length - 1]}
                   handleRoadmapClick={handleRoadmapClick}
                   handleStatusChange={handleStatusChange}
+                  openMenuId={openMenuId}
+                  setOpenMenuId={setOpenMenuId}
+                  menuRef={menuRef}
                 />
               </>
             ) : (
