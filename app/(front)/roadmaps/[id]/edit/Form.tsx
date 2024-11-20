@@ -43,6 +43,22 @@ export default function Form() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`/api/roadmaps/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        router.push("/");
+      } else {
+        console.error(await res.json());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (!initialData) return <Loading />;
 
   return (
@@ -50,6 +66,8 @@ export default function Form() {
       initialData={initialData}
       onSubmit={handleFormSubmit}
       submitLabel="Modifier la roadmap"
+      onDelete={handleDelete}
+      isEditing={true}
     />
   );
 }

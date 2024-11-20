@@ -1,16 +1,18 @@
 import { Roadmap } from "@/types/types";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Sidebar({
   roadmap,
   isSidebarVisible,
   closeSidebar,
+  updateRoadmap,
 }: {
   roadmap: Roadmap | null;
   isSidebarVisible: boolean;
   closeSidebar: () => void;
+  updateRoadmap: (roadmap: Roadmap) => void;
 }) {
   const { data: session } = useSession();
 
@@ -30,9 +32,11 @@ export default function Sidebar({
       });
 
       if (response.ok) {
-        console.log("Lien GitHub mis à jour avec succès");
         setGithubLink(githubInputValue);
         setGithubInputValue("");
+
+        roadmap!.github = githubInputValue;
+        updateRoadmap(roadmap!);
       } else {
         console.error("Erreur lors de la mise à jour du lien GitHub");
       }
@@ -41,6 +45,10 @@ export default function Sidebar({
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    setGithubLink(roadmap?.github || "");
+  }, [roadmap]);
 
   return (
     <div

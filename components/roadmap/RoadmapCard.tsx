@@ -1,28 +1,34 @@
 import { Roadmap } from "@/types/types";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 
 export default function RoadmapCard({
   item,
   handleRoadmapClick,
   handleStatusChange,
+  openMenuId,
+  setOpenMenuId,
+  menuRef,
 }: {
   item: Roadmap;
   handleRoadmapClick: (roadmap: Roadmap) => void;
   handleStatusChange: (roadmap: Roadmap, newStatus: string) => void;
+  openMenuId: string | null;
+  setOpenMenuId: React.Dispatch<React.SetStateAction<string | null>>;
+  menuRef: React.RefObject<HTMLDivElement>;
 }) {
   const { data: session } = useSession();
 
-  const [isStatusMenuOpen, setIsStatusMenuOpen] = useState(false);
+  const isStatusMenuOpen = openMenuId === item.id;
 
   const toggleStatusMenu = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Empêche le déclenchement de `handleRoadmapClick`
-    setIsStatusMenuOpen(!isStatusMenuOpen);
+    e.stopPropagation();
+
+    setOpenMenuId(isStatusMenuOpen ? null : item.id);
   };
 
   const changeStatus = (newStatus: string) => {
     handleStatusChange(item, newStatus);
-    setIsStatusMenuOpen(false); // Fermer le menu après le changement
+    setOpenMenuId(null); // Fermer le menu après le changement
   };
 
   return (
@@ -47,10 +53,16 @@ export default function RoadmapCard({
             : "Done"}
         </span>
         {item.authorId === session?.user.id ? (
-          <span className="cursor-pointer relative" onClick={toggleStatusMenu}>
+          <span
+            className="cursor-pointer relative"
+            onClick={toggleStatusMenu}
+          >
             •••
             {isStatusMenuOpen && (
-              <div className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32">
+              <div
+                ref={menuRef}
+                className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32"
+              >
                 <button
                   className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
                   onClick={() => changeStatus("todo")}

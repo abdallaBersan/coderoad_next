@@ -13,6 +13,8 @@ interface RoadmapFormProps {
   initialData?: RoadmapInputs;
   onSubmit: SubmitHandler<RoadmapInputs>;
   submitLabel: string;
+  onDelete?: () => void;
+  isEditing?: boolean;
 }
 
 console.log("RoadmapForm date: ", new Date().toISOString());
@@ -22,6 +24,8 @@ const RoadmapForm = ({
   initialData,
   onSubmit,
   submitLabel,
+  onDelete,
+  isEditing,
 }: RoadmapFormProps) => {
   const {
     register,
@@ -54,7 +58,6 @@ const RoadmapForm = ({
           <TitleInput register={register} errors={errors} />
           <DescriptionInput register={register} errors={errors} />
           <StatusInput register={register} errors={errors} />
-          <GithubInput register={register} errors={errors} />
           <TypeInput register={register} errors={errors} />
           <GroupInput register={register} errors={errors} />
           <DateInput register={register} errors={errors} />
@@ -70,6 +73,18 @@ const RoadmapForm = ({
               {submitLabel}
             </button>
           </div>
+
+          {isEditing && (
+            <div className="my-2 mt-7">
+              <button
+                type="button"
+                onClick={onDelete}
+                className="btn btn-error w-full"
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>
@@ -154,30 +169,6 @@ const StatusInput = ({
   </div>
 );
 
-const GithubInput = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<RoadmapInputs>;
-  errors: FieldErrors<RoadmapInputs>;
-}) => (
-  <div className="my-2">
-    <label className="label" htmlFor="github">
-      Github
-    </label>
-    {/* input not required */}
-    <input
-      type="text"
-      id="github"
-      className="input input-bordered w-full max-w-sm"
-      {...register("github")}
-    />
-    {errors.github?.message && (
-      <div className="text-error">{errors.github.message}</div>
-    )}
-  </div>
-);
-
 const TypeInput = ({
   register,
   errors,
@@ -249,6 +240,7 @@ const DateInput = ({
       className="input input-bordered w-full max-w-sm"
       {...register("createdAt", {
         required: "Created at is required",
+        setValueAs: (value) => (value ? new Date(value).toISOString() : null),
       })}
     />
     {errors.createdAt?.message && (
