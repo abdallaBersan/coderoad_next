@@ -3,20 +3,127 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background variables */
+  --background: #0f0c15;
+  --foreground: #ededed;
+
+  /* Border variables */
+  --border: rgb(37 33 52);
+
+  /* Text color variables */
+  --text-primary: hsla(0,0%,100%,.5);
+  --text-secondary: #fff;
+  --text-violet: rgb(172 106 255);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   /* color: #0a0a0a; */
+}
+
+header {
+  border-bottom: var(--border) 1px solid;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+
+    div {
+      transition: all 0.3s ease;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+    }
+
+    div:hover {
+      transform: translateY(-2px);
+      opacity: 0.8;
+    }
+
+    ul {
+      display: flex;
+      align-items: center;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-family: 'Roboto Mono';
+      font-weight: 500;
+      letter-spacing: 1px;
+
+      li a {
+        padding: 35px;
+        transition: all 0.3s ease;
+        display: inline-block;
+        position: relative;
+      }
+
+      li a:hover {
+        color: var(--text-secondary);
+        background: linear-gradient(180deg, #ad6aff0e, #5a3dc410);
+      }
+
+      li a::before {
+        content: '';
+        display: block;
+        height: 8px;
+        width: 1px;
+        background: var(--border);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      li a:last-child::after {
+        content: '';
+        display: block;
+        height: 8px;
+        width: 1px;
+        background: var(--border);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+
+    button {
+      position: relative;
+      text-transform: uppercase;
+      padding: 15px 30px;
+      font-family: 'Roboto Mono';
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 12px;
+      border-radius: 10px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    button:hover {
+      color: var(--text-violet);
+      transform: translateX(-5px);
+      opacity: 0.8;
+    }
+  }
 }

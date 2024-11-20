@@ -1,21 +1,21 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 import Menu from "./Menu";
 
 const Header = () => {
   return (
     <header>
       <nav>
-        <div className="navbar justify-between bg-base-300">
           <div>
-            <Link href="/" className="btn btn-ghost text-lg">
-              Coderoad
+            <Link href="/">
+              <Image src="/images/logo-coderoad.png" alt="Logo" className="h-10" width={50} height={50} />
+              <h1>Coderoad</h1>
             </Link>
           </div>
 
           <Menu />
-        </div>
       </nav>
     </header>
   );
