@@ -52,9 +52,8 @@ export default function Sidebar({
 
   return (
     <div
-      className={`fixed top-0 right-0 w-[35vw] bg-base-300 p-3 text-white h-full z-40 duration-500 ease-in-out transition-all transform ${
-        isSidebarVisible && roadmap ? "translate-x-0 " : "translate-x-full"
-      }`}
+      className={`sidebar ${isSidebarVisible && roadmap ? "translate-x-0 " : "translate-x-full"
+        }`}
     >
       {/* <div className="fixed top-0 right-0 h-full w-80 bg-neutral-800 text-white shadow-lg z-50"> */}
       <div className="flex justify-between items-center p-3">
@@ -93,8 +92,8 @@ export default function Sidebar({
           {roadmap?.status === "todo"
             ? "To Do"
             : roadmap?.status === "in progress"
-            ? "In Progress"
-            : "Done"}
+              ? "In Progress"
+              : "Done"}
         </div>
       </div>
       <div className="p-3">
@@ -124,9 +123,8 @@ export default function Sidebar({
             placeholder="Nouveau lien Github"
           />
           <button
-            className={`btn btn-primary w-full max-w-sm ${
-              isLoading ? "loading" : ""
-            }`}
+            className={`btn btn-primary w-full max-w-sm ${isLoading ? "loading" : ""
+              }`}
             onClick={handleSaveGithub}
             disabled={isLoading || !githubInputValue}
           >
@@ -134,6 +132,22 @@ export default function Sidebar({
           </button>
         </div>
       )}
+      <div className="p-3">
+        <div className="text-sm font-semibold mb-2">Date</div>
+        {/* date et l'heure du roadmap */}
+        <div className="text-sm">
+          {new Date(roadmap?.createdAt!).toLocaleDateString("fr-FR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}{" "}
+          à{" "}
+          {new Date(roadmap?.createdAt!).toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
+      </div>
     </div>
   );
 }

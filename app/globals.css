@@ -61,15 +61,18 @@ html {
   cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="%23575757" d="M4.5.79v22.42l6.56-6.57h9.29L4.5.79z"></path></svg>'), auto;
 }
 
-
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--Surface__neutral__base);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
   border-bottom: var(--Stroke__neutral__light) 1px solid;
   background-color: var(--Surface__neutral__high);
+  color: var(--Text__neutral__low);
 
   nav {
     display: flex;
@@ -103,11 +106,17 @@ header {
       font-weight: 500;
       letter-spacing: 1px;
 
-      li a {
-        padding: 35px;
-        transition: all 0.3s ease;
-        display: inline-block;
-        position: relative;
+      li {
+        display: flex;
+
+        a {
+          padding: 35px;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          position: relative;
+        }
       }
 
       li a:hover {
@@ -146,7 +155,7 @@ header {
       letter-spacing: 1px;
       transition: all 0.3s ease;
       border: 1px solid var(--Stroke__neutral__light);
-      color: var(--text-secondary);
+      color: var(--Text__neutral__base);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -168,40 +177,76 @@ header {
   }
 }
 
-section.roadmap-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  padding-block: 3rem;
-  max-width: 100%;
-  overflow-x: auto;
+main {
+  flex: 1;
 
-  > div {
-    border: 1px solid var(--Stroke__neutral__light);
-    border-radius: 10px;
-    padding: 2rem;
-    background-color: var(--Surface__neutral__high);
-    margin: 0.5rem;
-  }
-
-  div.card-container {
+  section.roadmap-container {
     display: flex;
-    gap: 1rem;
+    flex-direction: row;
+    width: 100%;
+    padding: 1rem;
+    width: 100%;
+    overflow-x: auto;
+    color: var(--Text__neutral__low);
 
-    div.frontend,
-    div.backend {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .roadmaps {
+      border: 1px solid var(--Stroke__neutral__light);
+      border-radius: 10px;
+      padding: 2rem;
+      background-color: var(--Surface__neutral__high);
+      margin: 0.5rem;
+
+      .types {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 2rem;
+      }
     }
 
-    div.backend {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 35vw;
+      background-color: var(--Surface__neutral__base);
+      padding: 0.75rem;
+      color: white;
+      height: 100%;
+      z-index: 40;
+      transition: all 0.5s ease-in-out;
+    }
 
-      .testblock {
-        height: 50px;
-        width: 100px;
-        background-color: rgb(103, 73, 73);
+    div.card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .project-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
       }
+
+      .challenge-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .challenge {
+          flex: 1;
+        }
+      }
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 30;
     }
   }
 }

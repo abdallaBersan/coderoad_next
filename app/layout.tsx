@@ -30,7 +30,7 @@ export default async function RootLayout({
       <body className="min-h-screen flex flex-col dark">
         <Providers>
           <Header />
-            {children}
+          {children}
           <Footer />
         </Providers>
       </body>
