@@ -1,5 +1,7 @@
 import { Roadmap } from "@/types/types";
 import { useSession } from "next-auth/react";
+import { HiDotsVertical } from "react-icons/hi";
+
 
 export default function RoadmapCard({
   item,
@@ -33,66 +35,62 @@ export default function RoadmapCard({
 
   return (
     <div
-      className="bg-neutral-800 text-white w-64 rounded-lg shadow-lg relative mb-2 mt-5"
+      className="card"
       onClick={() => handleRoadmapClick(item)}
     >
       <div
-        className={`flex justify-between items-center p-1 text-lg text-white rounded-t-lg select-none ${
-          item.status === "in progress"
-            ? "bg-amber-600"
-            : item.status === "done"
+        className={`status-badge ${item.status === "in progress"
+          ? "bg-amber-600"
+          : item.status === "done"
             ? "bg-green-600"
             : "bg-blue-600"
-        }`}
+          }`}
       >
         <span className="status text-sm font-medium">
           {item.status === "todo"
-            ? "To Do"
+            ? "To do"
             : item.status === "in progress"
-            ? "In Progress"
-            : "Done"}
+              ? "In Progress"
+              : "Done"}
         </span>
-        {item.authorId === session?.user.id ? (
-          <span
-            className="cursor-pointer relative"
-            onClick={toggleStatusMenu}
-          >
-            •••
-            {isStatusMenuOpen && (
-              <div
-                ref={menuRef}
-                className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32"
+      </div>
+      {item.authorId === session?.user.id ? (
+        <span
+          className="cursor-pointer relative dots"
+          onClick={toggleStatusMenu}
+        >
+          <HiDotsVertical />
+          {isStatusMenuOpen && (
+            <div
+              ref={menuRef}
+              className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32"
+            >
+              <button
+                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
+                onClick={() => changeStatus("todo")}
               >
-                <button
-                  className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
-                  onClick={() => changeStatus("todo")}
-                >
-                  To Do
-                </button>
-                <button
-                  className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
-                  onClick={() => changeStatus("in progress")}
-                >
-                  In Progress
-                </button>
-                <button
-                  className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
-                  onClick={() => changeStatus("done")}
-                >
-                  Done
-                </button>
-              </div>
-            )}
-          </span>
-        ) : (
-          <span className="opacity-0">•••</span>
-        )}
-      </div>
-      <div className="text-lg font-semibold mb-2 p-1 select-none">
+                To Do
+              </button>
+              <button
+                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
+                onClick={() => changeStatus("in progress")}
+              >
+                In Progress
+              </button>
+              <button
+                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
+                onClick={() => changeStatus("done")}
+              >
+                Done
+              </button>
+            </div>
+          )}
+        </span>
+      ) : (
+        <span className="opacity-0"><HiDotsVertical /></span>
+      )}
+      <div>
         {item.title}
-      </div>
-      <div className="flex items-center bg-neutral-700 p-1 text-white text-xs font-semibold rounded-b-lg select-none">
-        {item.group === "challenge" ? "Challenge" : "Projet"}
       </div>
     </div>
   );

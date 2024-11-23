@@ -10,7 +10,7 @@ interface RoadmapsViewProps {
   isCenter?: boolean;
 }
 
-export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
+export default function RoadmapsView({ users }: RoadmapsViewProps) {
   // État pour gérer la visibilité de la sidebar et les données de la roadmap sélectionnée
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [selectedRoadmap, setSelectedRoadmap] = useState<Roadmap | null>(null);
@@ -78,91 +78,80 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
   }
 
   return (
-    <section className={`${isCenter ? "" : "roadmap-container"}`}>
+    <section className="roadmap-container">
       {users.map((user) => (
-        <div key={user.username}>
+        <div key={user.username} className="roadmaps">
           <div className="text-center mb-5 text-2xl">
             <p>{user.username}</p>
+            <div className="types">
+              <span>Backend</span>
+              <span>Fronted</span>
+            </div>
           </div>
           <div className="card-container">
-            <div className="frontend">
-              <h3>Front-end</h3>
-              {/* Vérifie si `Roadmap` existe et n'est pas vide */}
-              {user.Roadmap && user.Roadmap.length > 0 ? (
-                <>
-                  {user.Roadmap &&
-                    user.Roadmap.filter(item => item.type === 'frontend').slice(0, -1).map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex flex-col items-center gap-4"
-                      >
-                        {/* Affiche la carte */}
-                        <RoadmapCard
-                          item={item}
-                          handleRoadmapClick={handleRoadmapClick}
-                          handleStatusChange={handleStatusChange}
-                          openMenuId={openMenuId}
-                          setOpenMenuId={setOpenMenuId}
-                          menuRef={menuRef}
-                        />
-                        {/* Affiche le Connector entre les cartes */}
-                        <Connector />
-                      </div>
-                    ))}
-
-                  {/* Affiche la dernière carte sans le Connector */}
-                  <RoadmapCard
-                    item={user.Roadmap.filter(item => item.type === 'frontend')[user.Roadmap.filter(item => item.type === 'frontend').length - 1]}
-                    handleRoadmapClick={handleRoadmapClick}
-                    handleStatusChange={handleStatusChange}
-                    openMenuId={openMenuId}
-                    setOpenMenuId={setOpenMenuId}
-                    menuRef={menuRef}
-                  />
-                </>
-              ) : (
-                <div className="text-center text-lg text-gray-500">
-                  Aucune roadmap pour le moment
-                </div>
-              )}
-            </div>
-            <div className="backend">
-              <h3>Back-end</h3>
-              {/* Vérifie si `Roadmap` existe et n'est pas vide */}
-              {user.Roadmap && user.Roadmap.length > 0 ? (
-                <>
-                  {user.Roadmap &&
-                    user.Roadmap.filter(item => item.type === 'backend').map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex flex-col items-center gap-4"
-                      >
-                        {/* Affiche la carte */}
-                        <RoadmapCard
-                          item={item}
-                          handleRoadmapClick={handleRoadmapClick}
-                          handleStatusChange={handleStatusChange}
-                          openMenuId={openMenuId}
-                          setOpenMenuId={setOpenMenuId}
-                          menuRef={menuRef}
-                        />
-                        {/* Affiche le Connector entre les cartes */}
-                        <Connector />
-                      </div>
-                    ))}
-                </>
-              ) : null}
-            </div>
+            {user.Roadmap && user.Roadmap.length > 0 ? (
+              <>
+                {user.Roadmap
+                  .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+                  .reduce((acc: { type: string; items?: Roadmap[]; }[], item) => {
+                    if (item.group === 'projet') {
+                      acc.push(
+                        <div key={item.id} className="project-row">
+                          <RoadmapCard
+                            item={item}
+                            handleRoadmapClick={handleRoadmapClick}
+                            handleStatusChange={handleStatusChange}
+                            openMenuId={openMenuId}
+                            setOpenMenuId={setOpenMenuId}
+                            menuRef={menuRef}
+                          />
+                        </div>
+                      );
+                    } else {
+                      const lastRow = acc[acc.length - 1];
+                      if (lastRow && lastRow.type === 'challenge-row' && lastRow.items && lastRow.items.length < 2) {
+                        lastRow.items.push(item);
+                      } else {
+                        acc.push({ type: 'challenge-row', items: [item] });
+                      }
+                    }
+                    return acc;
+                  }, [])
+                  .map((row, index) => {
+                    if (row.type === 'challenge-row') {
+                      return (
+                        <div key={index} className="challenge-row">
+                          {row.items && row.items.map((item, idx) => (
+                            <div key={item.id} className={`challenge ${item.type}`}>
+                              <RoadmapCard
+                                item={item}
+                                handleRoadmapClick={handleRoadmapClick}
+                                handleStatusChange={handleStatusChange}
+                                openMenuId={openMenuId}
+                                setOpenMenuId={setOpenMenuId}
+                                menuRef={menuRef}
+                              />
+                              {row.items && idx < row.items.length - 1}
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    } else {
+                      return row;
+                    }
+                  })}
+              </>
+            ) : (
+              <div className="text-center text-lg text-gray-500">
+                Aucune roadmap pour le moment
+              </div>
+            )}
           </div>
         </div>
       ))}
 
-      {/* Overlay flou lorsque la sidebar est visible */}
       {isSidebarVisible && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-30"
-          onClick={closeSidebar}
-        ></div>
+        <div className="overlay" onClick={closeSidebar}></div>
       )}
 
       <Sidebar
@@ -174,7 +163,3 @@ export default function RoadmapsView({ users, isCenter }: RoadmapsViewProps) {
     </section>
   );
 }
-
-const Connector = () => {
-  return <div className="w-0.5 bg-green-600 h-7"></div>;
-};
