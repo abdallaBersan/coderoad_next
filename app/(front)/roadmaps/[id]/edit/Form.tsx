@@ -27,10 +27,13 @@ export default function Form() {
 
   const handleFormSubmit: SubmitHandler<RoadmapInputs> = async (form) => {
     try {
+      // remove status field from form data
+      const { status, ...rest } = form;
+
       const res = await fetch(`/api/roadmaps/${id}`, {
         method: "PUT",
         // headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(rest),
       });
 
       if (res.ok) {
