@@ -270,23 +270,64 @@ main {
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       user-select: none;
       position: absolute;
-      bottom: 3.4rem;
+      bottom: 3rem;
       left: 0.5rem;
     }
 
     div:last-child {
       font-size: 1.125rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
+      padding: 1rem;
       user-select: none;
     }
 
     .dots {
       position: absolute;
-      top: 0.5rem;
+      top: 0.8rem;
       right: 0.5rem;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
+      border: 1px solid var(--Stroke__neutral__light);
+      border-radius: 20%;
+      padding: 0.3rem;
+      transition: all 0.3s ease;
+
+      .status-menu {
+        position: absolute;
+        right: 0;
+        margin-top: 0.5rem;
+        background-color: var(--Surface__neutral__base);
+        border: 1px solid var(--Stroke__neutral__light);
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 0;
+        z-index: 500;
+        width: 10rem;
+
+        button {
+          font-size: 0.8rem;
+          text-align: left;
+          width: 100%;
+          color: var(--Text__neutral__base);
+          padding: 0.25rem 0.5rem;
+        }
+
+        button:hover {
+          background-color: var(--Surface__neutral__low);
+        }
+
+        button:not(:last-child) {
+          border-bottom: 1px solid var(--Stroke__neutral__light);
+        }
+      }
+    }
+
+    .dots:hover {
+      background-color: var(--Surface__neutral__low);
+    }
+
+    .card-title {
+      text-align: center;
+      font-size: 1rem;
     }
   }
 

@@ -48,7 +48,7 @@ export default function RoadmapCard({
       >
         <span className="status text-sm font-medium">
           {item.status === "todo"
-            ? "To do"
+            ? "To Do"
             : item.status === "in progress"
               ? "In Progress"
               : "Done"}
@@ -63,22 +63,19 @@ export default function RoadmapCard({
           {isStatusMenuOpen && (
             <div
               ref={menuRef}
-              className="absolute right-0 mt-2 bg-neutral-700 rounded shadow-lg p-2 z-50 w-32"
+              className="status-menu"
             >
               <button
-                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
                 onClick={() => changeStatus("todo")}
               >
                 To Do
               </button>
               <button
-                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
                 onClick={() => changeStatus("in progress")}
               >
                 In Progress
               </button>
               <button
-                className="block text-left w-full text-white hover:bg-neutral-600 px-2 py-1"
                 onClick={() => changeStatus("done")}
               >
                 Done
@@ -87,10 +84,10 @@ export default function RoadmapCard({
           )}
         </span>
       ) : (
-        <span className="opacity-0"><HiDotsVertical /></span>
+        null
       )}
       <div>
-        {item.title}
+        <p className="card-title">{item.title}</p>
       </div>
     </div>
   );
