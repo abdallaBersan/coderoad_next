@@ -13,8 +13,8 @@ export type Roadmap = {
   type: string;
   group: string;
   authorId: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type RoadmapInputs = {
