@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export const PUT = async (req: Request, context: any) => {
   try {
     const { params } = context;
-    const id = params.id;
+    const id = await params.id;
 
     // Données de mise à jour reçues dans le corps de la requête
     const data = await req.json();

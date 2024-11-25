@@ -46,7 +46,6 @@
   --Stroke__neutral__light: #3d434d;
 }
 
-
 *,
 *::before,
 *::after {
@@ -58,11 +57,12 @@
 }
 
 html {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="%23575757" d="M4.5.79v22.42l6.56-6.57h9.29L4.5.79z"></path></svg>'), auto;
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="%23575757" d="M4.5.79v22.42l6.56-6.57h9.29L4.5.79z"></path></svg>'),
+    auto;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: var(--Surface__neutral__base);
   min-height: 100vh;
   display: flex;
@@ -102,7 +102,7 @@ header {
       align-items: center;
       text-transform: uppercase;
       font-size: 12px;
-      font-family: 'Roboto Mono';
+      font-family: "Roboto Mono";
       font-weight: 500;
       letter-spacing: 1px;
 
@@ -124,7 +124,7 @@ header {
       }
 
       li a::before {
-        content: '';
+        content: "";
         display: block;
         height: 8px;
         width: 1px;
@@ -135,7 +135,7 @@ header {
       }
 
       li a:last-child::after {
-        content: '';
+        content: "";
         display: block;
         height: 8px;
         width: 1px;
@@ -150,7 +150,7 @@ header {
       position: relative;
       text-transform: uppercase;
       padding: 15px 30px;
-      font-family: 'Roboto Mono';
+      font-family: "Roboto Mono";
       font-weight: 500;
       letter-spacing: 1px;
       transition: all 0.3s ease;
@@ -255,7 +255,8 @@ main {
     background-color: var(--Surface__neutral__base);
     width: 16rem;
     border-radius: 0.25rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     position: relative;
     margin-bottom: 0.5rem;
     margin-top: 1.25rem;
@@ -263,14 +264,16 @@ main {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid var(--Stroke__neutral__light);
+    height: 100px;
 
     .status-badge {
       padding-inline: 0.5rem 2rem;
       color: var(--Text__neutral__base);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
       user-select: none;
       position: absolute;
-      bottom: 3rem;
+      bottom: 5rem;
       left: 0.5rem;
     }
 
@@ -298,10 +301,12 @@ main {
         background-color: var(--Surface__neutral__base);
         border: 1px solid var(--Stroke__neutral__light);
         border-radius: 0.25rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
         padding: 0;
-        z-index: 500;
+        z-index: 9999;
         width: 10rem;
+        /* isolation: isolate; */
 
         button {
           font-size: 0.8rem;
@@ -326,16 +331,23 @@ main {
     }
 
     .card-title {
-      text-align: center;
-      font-size: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      font-size: 1rem; /* Ajustez selon votre design */
+      line-height: 1.5rem; /* Pour un espacement harmonieux */
+      margin-top: 10px;
     }
   }
 
   .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
-
 }
 
 footer {
