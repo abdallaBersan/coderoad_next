@@ -35,7 +35,7 @@ export default function RoadmapCard({
 
   return (
     <div
-      className="card"
+      className="card card-height"
       onClick={() => handleRoadmapClick(item)}
     >
       <div

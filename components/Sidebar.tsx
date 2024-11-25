@@ -50,10 +50,24 @@ export default function Sidebar({
     setGithubLink(roadmap?.github || "");
   }, [roadmap]);
 
+  useEffect(() => {
+    if (isSidebarVisible) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Nettoyage pour éviter les effets indésirables
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isSidebarVisible]);
+
   return (
     <div
-      className={`sidebar ${isSidebarVisible && roadmap ? "translate-x-0 " : "translate-x-full"
-        }`}
+      className={`sidebar ${
+        isSidebarVisible && roadmap ? "translate-x-0 " : "translate-x-full"
+      }`}
     >
       {/* <div className="fixed top-0 right-0 h-full w-80 bg-neutral-800 text-white shadow-lg z-50"> */}
       <div className="flex justify-between items-center p-3">
@@ -92,8 +106,8 @@ export default function Sidebar({
           {roadmap?.status === "todo"
             ? "To Do"
             : roadmap?.status === "in progress"
-              ? "In Progress"
-              : "Done"}
+            ? "In Progress"
+            : "Done"}
         </div>
       </div>
       <div className="p-3">
@@ -123,8 +137,9 @@ export default function Sidebar({
             placeholder="Nouveau lien Github"
           />
           <button
-            className={`btn btn-primary w-full max-w-sm ${isLoading ? "loading" : ""
-              }`}
+            className={`btn btn-primary w-full max-w-sm ${
+              isLoading ? "loading" : ""
+            }`}
             onClick={handleSaveGithub}
             disabled={isLoading || !githubInputValue}
           >

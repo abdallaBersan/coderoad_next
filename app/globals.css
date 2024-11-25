@@ -214,6 +214,8 @@ main {
       height: 100%;
       z-index: 40;
       transition: all 0.5s ease-in-out;
+      overflow-y: auto;
+      max-height: 100vh;
     }
 
     div.card-container {
@@ -264,7 +266,6 @@ main {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid var(--Stroke__neutral__light);
-    height: 100px;
 
     .status-badge {
       padding-inline: 0.5rem 2rem;
@@ -343,11 +344,20 @@ main {
     }
   }
 
+  .card-height {
+    height: 100px;
+  }
+
   .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
       0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
+}
+
+.no-scroll {
+  overflow: hidden; /* Empêche le défilement */
+  height: 100vh; /* Empêche tout déplacement vertical */
 }
 
 footer {
