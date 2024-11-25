@@ -1,10 +1,17 @@
-import { Metadata } from "next";
-import Form from "./Form";
+"use client";
+// import { Metadata } from "next";
+// import Form from "./Form";
 
-export const metadata: Metadata = {
-    title: 'Inscription',
-}
+import { useRouter } from "next/navigation";
 
-export default function Signin(){
-    return <Form />
+// export const metadata: Metadata = {
+//     title: 'Inscription',
+// }
+
+export default function Register() {
+  const router = useRouter();
+
+  router.push("/");
+
+  return null;
 }

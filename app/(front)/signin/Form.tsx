@@ -1,7 +1,6 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -98,12 +97,12 @@ const Form = () => {
             </button>
           </div>
         </form>
-        <div>
+        {/* <div>
           Vous n'avez pas de compte?{" "}
           <Link className="link" href={`/register`}>
             S'inscrire
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
