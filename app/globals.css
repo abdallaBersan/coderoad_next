@@ -513,6 +513,11 @@ main {
       text-align: center;
     }
   }
+
+  .project .card-title {
+    font-size: 1rem;
+    padding: 1rem;
+  }
 }
 
 .no-scroll {
