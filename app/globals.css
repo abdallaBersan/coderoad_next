@@ -491,8 +491,7 @@ main {
   }
 
   .card:hover {
-    box-shadow: 1 0px 16px 0px rgba(84, 75, 75, 0.677),
-      0 0px 15px 0px rgba(68, 64, 64, 0.793);
+    box-shadow: 0 0px 16px 0 rgb(57 52 52 / 68%), 0 4px 10px 0 rgb(60 54 54 / 79%);
   }
 
   .zone {
