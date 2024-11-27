@@ -81,7 +81,21 @@ export default function RoadmapsView({ users }: RoadmapsViewProps) {
     <section className="roadmap-container">
       {users.map((user) => (
         <div key={user.username} className="roadmaps">
-          <div className="text-center mb-5 text-2xl">
+          {/* Barre de progression */}
+          <div className="progress-bar">
+            {(() => {
+              const totalRoadmaps = user.Roadmap.length;
+              const completedRoadmaps = user.Roadmap.filter(roadmap => roadmap.status === "done").length;
+              const progressPercentage = totalRoadmaps > 0 ? (completedRoadmaps / totalRoadmaps) * 100 : 0;
+              return (
+                <>
+                  <div className="progress bg-emerald-800 transition-all duration-500 ease-in-out" style={{ width: `${progressPercentage}%` }}></div>
+                  <span className="progress-percentage">{Math.round(progressPercentage)}%</span>
+                </>
+              );
+            })()}
+          </div>
+          <div className="text-center mb-10 text-2xl">
             <p>{user.username}</p>
             <div className="types">
               <span>Backend</span>

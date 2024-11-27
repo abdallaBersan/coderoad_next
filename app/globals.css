@@ -22,6 +22,12 @@
   --Stroke__neutral__low: rgba(87, 87, 87, 0.7);
   --Icons__base: #5a656f;
   --Stroke__neutral__light: #d3d9e1;
+  --Connector__in-progress-color: #b45405;
+  /* Couleur ambre pour "in progress" */
+  --Connector__done-color: #2e5642;
+  /* Couleur verte pour "done" */
+  --Connector__not-started-color: #4c5464;
+  /* Couleur grise pour "not started" */
 }
 
 /* Thème sombre, appliqué avec la classe .dark */
@@ -44,6 +50,12 @@
   --Stroke__neutral__low: rgba(205, 217, 231, 0.7);
   --Icons__base: #8f959f;
   --Stroke__neutral__light: #3d434d;
+  --Connector__in-progress-color: #b45405;
+  /* Couleur ambre pour "in progress" */
+  --Connector__done-color: #2e5642;
+  /* Couleur verte pour "done" */
+  --Connector__not-started-color: #4c5464;
+  /* Couleur grise pour "not started" */
 }
 
 *,
@@ -200,6 +212,27 @@ main {
         display: flex;
         justify-content: space-around;
         margin-top: 2rem;
+        position: relative;
+
+        /* span:first-of-type:after {
+          content: "";
+          display: block;
+          height: 60px;
+          width: 3px;
+          position: absolute;
+          left: 25%;
+          background: #2e5642;
+        }
+
+        span:last-of-type:after {
+          content: "";
+          display: block;
+          height: 60px;
+          width: 3px;
+          position: absolute;
+          right: 25%;
+          background: #2e5642;
+        } */
       }
     }
 
@@ -265,16 +298,16 @@ main {
     position: relative;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 1px solid var(--Stroke__neutral__light);
+    border-width: 2px;
 
     .status-badge {
-      padding-inline: 0.5rem 2rem;
+      padding-inline: 0.5rem 1rem;
       color: var(--Text__neutral__base);
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
       user-select: none;
       position: absolute;
-      bottom: 5rem;
+      bottom: 5.4rem;
       left: 0.5rem;
     }
 
@@ -338,10 +371,119 @@ main {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
-      font-size: 1rem; /* Ajustez selon votre design */
-      line-height: 1.5rem; /* Pour un espacement harmonieux */
+      font-size: 1rem;
+      /* Ajustez selon votre design */
+      line-height: 1.5rem;
+      /* Pour un espacement harmonieux */
       margin-top: 10px;
     }
+  }
+
+  .card::before,
+  .card::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+  }
+
+  .in-progress:not(.project)::before,
+  .in-progress:not(.project)::after {
+    background-color: var(--Connector__in-progress-color);
+  }
+
+  .done:not(.project)::before,
+  .done:not(.project)::after {
+    background-color: var(--Connector__done-color);
+  }
+
+  .not-started:not(.project)::before,
+  .not-started:not(.project)::after {
+    background-color: var(--Connector__not-started-color);
+  }
+
+  .in-progress:not(.project)::before,
+  .done:not(.project)::before,
+  .not-started:not(.project)::before {
+    bottom: 96px;
+    left: 50%;
+    height: 35%;
+  }
+
+  .in-progress:not(.project)::after,
+  .done:not(.project)::after,
+  .not-started:not(.project)::after {
+    top: 96px;
+    left: 50%;
+    height: 35%;
+  }
+
+  .project::before,
+  .project::after {
+    content: '';
+    position: absolute;
+    width: 109%;
+    height: 3px;
+  }
+
+  .project.in-progress::before,
+  .project.in-progress::after {
+    background-color: var(--Connector__in-progress-color);
+  }
+
+  .project.done::before,
+  .project.done::after {
+    background-color: var(--Connector__done-color);
+  }
+
+  .project.not-started::before,
+  .project.not-started::after {
+    background-color: var(--Connector__not-started-color);
+  }
+
+  .project::before {
+    top: -35px;
+    left: -10px;
+  }
+
+  .project::after {
+    bottom: -35px;
+    left: -10px;
+  }
+
+  /* Styles pour les nouveaux pseudo-éléments */
+  .project-extra-before,
+  .project-extra-after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 35%;
+  }
+
+  .project.in-progress .project-extra-before,
+  .project.in-progress .project-extra-after {
+    background-color: var(--Connector__in-progress-color);
+  }
+
+  .project.done .project-extra-before,
+  .project.done .project-extra-after {
+    background-color: var(--Connector__done-color);
+  }
+
+  .project.not-started .project-extra-before,
+  .project.not-started .project-extra-after {
+    background-color: var(--Connector__not-started-color);
+  }
+
+  .project-extra-before {
+    top: -35px;
+    /* Ajustez selon vos besoins */
+    left: 50%;
+  }
+
+  .project-extra-after {
+    bottom: -35px;
+    /* Ajustez selon vos besoins */
+    left: 50%;
   }
 
   .card-height {
@@ -349,15 +491,36 @@ main {
   }
 
   .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 1 0px 16px 0px rgba(84, 75, 75, 0.677),
+      0 0px 15px 0px rgba(68, 64, 64, 0.793);
+  }
+
+  .zone {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #a07f43;
+    padding: 2px !important;
+    background: repeating-linear-gradient(45deg,
+        #a07f43,
+        #a07f43 10px,
+        #8c6d3a 10px,
+        #8c6d3a 20px);
+
+    p {
+      color: white;
+      font-size: 0.75rem;
+      text-align: center;
+    }
   }
 }
 
 .no-scroll {
-  overflow: hidden; /* Empêche le défilement */
-  height: 100vh; /* Empêche tout déplacement vertical */
+  overflow: hidden;
+  /* Empêche le défilement */
+  height: 100vh;
+  /* Empêche tout déplacement vertical */
 }
 
 footer {

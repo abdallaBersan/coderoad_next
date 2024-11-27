@@ -35,15 +35,26 @@ export default function RoadmapCard({
 
   return (
     <div
-      className="card card-height"
+      className={`card card-height ${item.status === "in progress"
+        ? "border-amber-700 in-progress"
+        : item.status === "done"
+          ? "border-green-800 done"
+          : "border-gray-700 not-started"
+        } ${item.group === "projet" ? "project" : ""}`}
       onClick={() => handleRoadmapClick(item)}
     >
+      {item.group === "projet" && (
+        <>
+          <div className="project-extra-before"></div>
+          <div className="project-extra-after"></div>
+        </>
+      )}
       <div
         className={`status-badge ${item.status === "in progress"
-          ? "bg-amber-600"
+          ? "bg-amber-700"
           : item.status === "done"
-            ? "bg-green-600"
-            : "bg-blue-600"
+            ? "bg-green-800"
+            : "bg-gray-600"
           }`}
       >
         <span className="status text-sm font-medium">
@@ -89,6 +100,11 @@ export default function RoadmapCard({
       <div>
         <p className="card-title">{item.title}</p>
       </div>
+      {item.group === "projet" && (
+        <div className="zone">
+          <p>PROJET</p>
+        </div>
+      )}
     </div>
   );
 }
